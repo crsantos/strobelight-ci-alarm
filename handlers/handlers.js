@@ -32,7 +32,7 @@ module.exports = Object.freeze({
         }
         
         reply({
-            status : 'Activated: ' + state,
+            status : state,
             timestamp : new Date().getTime(),
         }).code(200);
     },
@@ -40,7 +40,7 @@ module.exports = Object.freeze({
         
         var toggledState = gpiToggler.toggle();
         reply({
-            status : 'Toggled: ' + toggledState,
+            status : toggledState,
             timestamp : new Date().getTime(),
         }).code(200);
     },
