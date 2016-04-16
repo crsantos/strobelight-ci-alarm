@@ -7,34 +7,34 @@ module.exports = class GpioToggler {
     constructor() {
         
         console.log("Setting up GpioToggler")
-        var Gpio = require('onoff').Gpio,
-        led = new Gpio(constants.GPIO_PORT, 'out');
-        process.on('SIGINT', exit);
+        var Gpio = require('onoff').Gpio;
+        this.led = new Gpio(constants.GPIO_PORT, 'out');
+        process.on('SIGINT', this.exit);
     }
 
     toggle(){
 
         console.log("Toggling");
-        led.writeSync(led.readSync() ^ 1);
+        this.led.writeSync(this.led.readSync() ^ 1);
     }
 
     turnOn(){
 
-        led.writeSync(1);
+        this.led.writeSync(1);
     }
 
     turnOff(){
 
-        led.writeSync(0);
+        this.led.writeSync(0);
     }
 
     exit() {
 
-      led.unexport();
+      this.led.unexport();
       process.exit();
     }
 
     toString() {
-        return '(' + this.queue + ')';
+        return '(' + this.led + ')';
     }
 }
