@@ -1,5 +1,6 @@
 'use strict';
 
+const constants = require('../config/constants.js');
 var GpioToggler = require('../controllers/gpiotoggler.js')
 var gpiToggler = new GpioToggler();
 
@@ -7,7 +8,11 @@ module.exports = Object.freeze({
 
     root : function (request, reply) {
 
-        reply('Hello, world!');
+        reply({
+            status : "ok",
+            timestamp : new Date().getTime(),
+            version : constants.VERSION
+        }).code(200);
     },
 
     activate : function (request, reply) {
