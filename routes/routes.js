@@ -20,4 +20,14 @@ module.exports = [
     notes: 'receives an ON or OFF',
     tags : ['app']
   }
+},
+{
+  method : 'GET',
+  path : '/toggle',
+  handler : handlers.toggle,
+  config : {
+    description: 'state switcher',
+    notes: 'toggles state',
+    tags : ['app']
+  }
 }];
