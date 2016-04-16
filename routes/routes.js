@@ -24,7 +24,7 @@ module.exports = [
     tags : ['app'],
     validate: {
       params: {
-          name: Joi.string().min(2).max(3)
+          state: Joi.string().min(2).max(3)
       }
     }
   }
