@@ -1,12 +1,16 @@
 'use strict';
 
 const constants = require('../config/constants.js');
+const os = require('os');
 
 module.exports = class GpioToggler {
 
     constructor() {
         
       console.log("Setting up GpioToggler")
+      if(os.platform() != 'linux'){
+        return;
+      }
       var Gpio = require('onoff').Gpio;
       this.pin = new Gpio(constants.GPIO_PORT, 'out');
       process.on('SIGINT', this.exit);

@@ -1,14 +1,21 @@
 'use strict';
 
 // REQUIRES
-const constants = require('./config/constants.js');
-const routes = require('./routes/routes.js');
-const Hapi = require('hapi');
-const Good = require('good');
+const constants     = require('./config/constants.js');
+const authenticator = require('./controllers/authenticator.js');
+const routes        = require('./routes/routes.js');
+const basic         = require('hapi-auth-basic');
+const Hapi          = require('hapi');
+const Good          = require('good');
 
 // SETUP
 const server = new Hapi.Server();
 server.connection({ port: constants.SERVER_PORT });
+
+server.register(require('hapi-auth-basic'), (err) => {
+     
+  server.auth.strategy('simple', 'basic', { validateFunc: authenticator });
+});
 
 // ROUTES
 server.route(routes);
@@ -30,6 +37,8 @@ server.register({
     if (err) {
         throw err; // something bad happened loading the plugin
     }
+
+    // server.auth.strategy('simple', 'basic', { validateFunc: authenticator });
 
     server.start((err) => {
 

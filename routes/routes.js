@@ -1,4 +1,5 @@
 const handlers = require('../handlers/handlers.js');
+var Joi = require('joi');
 
 module.exports = [
 {
@@ -6,6 +7,7 @@ module.exports = [
   path : '/',
   handler :  handlers.root,
   config : {
+    auth: 'simple',
     description: 'root',
     notes: 'root path',
     tags : ['app']
@@ -16,9 +18,15 @@ module.exports = [
   path : '/activate/{state}',
   handler : handlers.activate,
   config : {
+    auth: 'simple',
     description: 'state either ON/OFF',
     notes: 'receives an ON or OFF',
-    tags : ['app']
+    tags : ['app'],
+    validate: {
+      params: {
+          name: Joi.string().min(2).max(3)
+      }
+    }
   }
 },
 {
@@ -26,6 +34,7 @@ module.exports = [
   path : '/toggle',
   handler : handlers.toggle,
   config : {
+    auth: 'simple',
     description: 'state switcher',
     notes: 'toggles state',
     tags : ['app']
