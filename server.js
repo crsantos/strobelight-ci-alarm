@@ -12,6 +12,7 @@ const Good          = require('good');
 const server = new Hapi.Server();
 server.connection({ port: constants.SERVER_PORT });
 
+// AUTH
 server.register(require('hapi-auth-basic'), (err) => {
      
   server.auth.strategy('simple', 'basic', { validateFunc: authenticator });
@@ -37,8 +38,6 @@ server.register({
     if (err) {
         throw err; // something bad happened loading the plugin
     }
-
-    // server.auth.strategy('simple', 'basic', { validateFunc: authenticator });
 
     server.start((err) => {
 
