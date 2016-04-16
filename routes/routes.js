@@ -24,7 +24,7 @@ module.exports = [
     tags : ['app'],
     validate: {
       params: {
-          state: Joi.string().min(2).max(3)
+          state: Joi.any().allow('on', 'off'),
       }
     }
   }
