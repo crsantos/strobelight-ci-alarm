@@ -13,7 +13,15 @@ module.exports = Object.freeze({
     activate : function (request, reply) {
         
         var state = encodeURIComponent(request.params.state) === 'on'
-        gpiToggler.toggle(state);
+        if(state){
+
+            gpiToggler.turnOn();
+
+        } else{
+
+            gpiToggler.turnOff();
+        }
+        
         reply('Activating: ' + state);
     },
     toggle : function (request, reply) {
