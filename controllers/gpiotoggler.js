@@ -25,14 +25,14 @@ module.exports = class GpioToggler {
       return newState;
     }
 
-    turnOn(){
+    turnOn(callback){
 
-      this.pin.writeSync(1);
+      this.pin.write(1, callback);
     }
 
-    turnOff(){
+    turnOff(callback){
 
-      this.pin.writeSync(0);
+      this.pin.write(0, callback);
     }
 
     exit() {

@@ -15,11 +15,15 @@ module.exports = Object.freeze({
         var state = encodeURIComponent(request.params.state) === 'on'
         if(state){
 
-            gpiToggler.turnOn();
+            gpiToggler.turnOn(function(err){
+                console.log("turned on");
+            });
 
         } else{
 
-            gpiToggler.turnOff();
+            gpiToggler.turnOff(function(err){
+                console.log("turned off");
+            });
         }
         
         reply('Activating: ' + state);
