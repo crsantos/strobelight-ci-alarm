@@ -1,6 +1,7 @@
 'use strict';
 
 var GpioToggler = require('../controllers/gpiotoggler.js')
+var gpiToggler = new GpioToggler();
 
 module.exports = Object.freeze({
 
@@ -11,7 +12,7 @@ module.exports = Object.freeze({
 
     activate : function (request, reply) {
         
-        GpioToggler.toggle();
+        gpiToggler.toggle();
         reply('Toggling, ' + encodeURIComponent(request.params.state) + '!');
     }
 });
