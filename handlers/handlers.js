@@ -31,11 +31,17 @@ module.exports = Object.freeze({
             });
         }
         
-        reply('Activating: ' + state);
+        reply({
+            status : 'Activated: ' + state,
+            timestamp : new Date().getTime(),
+        }).code(200);
     },
     toggle : function (request, reply) {
         
         var toggledState = gpiToggler.toggle();
-        reply('Toggling, ' + toggledState + '!');
+        reply({
+            status : 'Toggled: ' + toggledState,
+            timestamp : new Date().getTime(),
+        }).code(200);
     },
 });
