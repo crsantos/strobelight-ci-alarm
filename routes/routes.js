@@ -24,7 +24,7 @@ module.exports = [
     tags : ['app'],
     validate: {
       params: {
-          state: Joi.any().allow('on', 'off'),
+          state: Joi.any().valid('on', 'off'),
       }
     }
   }
