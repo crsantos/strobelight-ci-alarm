@@ -15,7 +15,10 @@ module.exports = class GpioToggler {
     toggle(){
 
         console.log("Toggling");
-        this.pin.writeSync(this.pin.readSync() ^ 1);
+        var previousState = this.pin.readSync();
+        var newState = previousState ^ 1;
+        this.pin.writeSync(newState);
+        return newState;
     }
 
     turnOn(){

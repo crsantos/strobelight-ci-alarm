@@ -18,7 +18,7 @@ module.exports = Object.freeze({
     },
     toggle : function (request, reply) {
         
-        gpiToggler.toggle();
-        reply('Toggling, ' + encodeURIComponent(request.params.state) + '!');
+        var toggledState = gpiToggler.toggle();
+        reply('Toggling, ' + toggledState + '!');
     },
 });
