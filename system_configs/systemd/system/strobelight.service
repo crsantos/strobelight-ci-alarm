@@ -1,0 +1,12 @@
+[Service]
+ExecStart=/usr/local/bin/node /home/pi/strobelight-ci-alarm/server.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=strobelight
+User=pi
+Group=pi
+Environment=NODE_ENV=production PORT=3000
+
+[Install]
+WantedBy=multi-user.target
