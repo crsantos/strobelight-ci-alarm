@@ -14,7 +14,7 @@ module.exports = [
   }
 },
 {
-  method : 'GET',
+  method : 'POST',
   path : '/activate/{state}',
   handler : handlers.activate,
   config : {
@@ -30,7 +30,7 @@ module.exports = [
   }
 },
 {
-  method : 'GET',
+  method : 'POST',
   path : '/toggle',
   handler : handlers.toggle,
   config : {
