@@ -13,6 +13,7 @@ module.exports = class GpioToggler {
       }
       var Gpio = require('onoff').Gpio;
       this.pin = new Gpio(constants.GPIO_PORT, 'out');
+      turnOff(); // defaults to OFF
       process.on('SIGINT', this.exit);
     }
 
