@@ -21,29 +21,33 @@ server.register(require('hapi-auth-basic'), (err) => {
 // ROUTES
 server.route(routes);
 
+var options = {
+    opsInterval: 60000,
+    filter:{
+        access_token: 'strobelight'
+    },
+    reporters: [{
+        reporter: require('good-console'),
+        events: { log: '*', response: '*' }
+    }, {
+        reporter: require('good-file'),
+        events: { ops: '*' },
+        config: '/tmp/strobelight.log'
+    }]
+};
+
 // GOOD CONSOLE
 server.register({
     register: Good,
-    options: {
-        reporters: [{
-            reporter: require('good-console'),
-            events: {
-                response: '*',
-                log: '*'
-            }
-        }]
-    }
+    options: options
 }, (err) => {
 
     if (err) {
-        throw err; // something bad happened loading the plugin
+        console.error(err);
+    } else {
+        server.start(() => {
+
+            console.info('Server started at ' + server.info.uri);
+        });
     }
-
-    server.start((err) => {
-
-        if (err) {
-           throw err;
-        }
-        server.log('info', 'Server running at: ' + server.info.uri);
-    });
 });
