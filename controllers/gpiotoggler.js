@@ -7,7 +7,7 @@ module.exports = class GpioToggler {
 
     constructor() {
         
-      console.log("Setting up GpioToggler")
+      console.info("Setting up GpioToggler")
       if(os.platform() != 'linux'){
         return;
       }
@@ -18,7 +18,7 @@ module.exports = class GpioToggler {
 
     toggle(){
 
-      console.log("Toggling");
+      console.info("Toggling");
       var previousState = this.pin.readSync();
       var newState = previousState ^ 1;
       this.pin.writeSync(newState);
@@ -27,11 +27,13 @@ module.exports = class GpioToggler {
 
     turnOn(callback){
 
+      console.info("Turning on");
       this.pin.write(1, callback);
     }
 
     turnOff(callback){
 
+      console.info("Turning off");
       this.pin.write(0, callback);
     }
 
