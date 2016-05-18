@@ -10,5 +10,7 @@ module.exports = Object.freeze({
     WRITE_STATE : {
     	ON : "on",
     	OFF : "off",
-    }
+    },
+    AUDIO_BASE_PATH: '/var/lib/strobelight-ci-alarm/sounds',
+    AUDIO_MAX_RANDOM: 10
 });
