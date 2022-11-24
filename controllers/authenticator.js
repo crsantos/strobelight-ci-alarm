@@ -1,8 +1,7 @@
 'use strict';
 
-const Bcrypt  = require('bcrypt');
-const Basic   = require('hapi-auth-basic');
-const User    = require('../models/user.js');
+import { compare } from 'bcrypt';
+import User from '../models/user.js';
 
 const users = {
 
@@ -14,19 +13,20 @@ const users = {
     }
 };
 
-module.exports = function(request, username, password, callback) {
+export const validate = async (request, username, password) => {
 
   const user = users[username];
   if (!user) {
-    return callback(null, false);
+      return { credentials: null, isValid: false };
   }
 
-  /*
+   /*
   var cryptedPassword = new User(username, password).encryptedPass();
   console.log("cryptedPassword => " + cryptedPassword);
   */
-  
-  Bcrypt.compare(password, user.password, (err, isValid) => {
-    callback(err, isValid, { id: user.id, name: user.name });
-  });
-}
+
+  const isValid = await compare(password, user.password);
+  const credentials = { id: user.id, name: user.name };
+
+  return { isValid, credentials };
+};

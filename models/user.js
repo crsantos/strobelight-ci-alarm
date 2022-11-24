@@ -1,9 +1,9 @@
 'use strict';
 
-const Bcrypt  = require('bcrypt');
-var Joi = require('joi');
+import Bcrypt from 'bcrypt';
+import Joi from 'joi'
 
-module.exports = class User {
+export default class User {
 
   constructor(username, password) {
     

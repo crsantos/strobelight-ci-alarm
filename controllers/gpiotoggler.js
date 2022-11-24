@@ -1,18 +1,18 @@
 'use strict';
 
-const constants = require('../config/constants.js');
-const os = require('os');
+import { GPIO_PORT, WRITE_STATE, STATUS } from '../config/constants.js';
+import { platform } from 'os';
 
-module.exports = class GpioToggler {
+export default class GpioToggler {
 
     constructor() {
         
       console.info("Setting up GpioToggler")
-      if(os.platform() != 'linux'){
+      if(platform() != 'linux'){
         return;
       }
       var Gpio = require('onoff').Gpio;
-      this.pin = new Gpio(constants.GPIO_PORT, 'out');
+      this.pin = new Gpio(GPIO_PORT, 'out');
       var weakthis = this;
       this.turnOn(function(err){
           console.info("Initial on/off cycle...");
@@ -27,31 +27,31 @@ module.exports = class GpioToggler {
     toggle(){
 
       console.info("Toggling");
-      if(os.platform() != 'linux'){
+      if(platform() != 'linux'){
         return 1;
       }
       var previousState = this.pin.readSync();
       var newState = previousState ^ 1;
       this.pin.writeSync(newState);
-      return (newState ? constants.WRITE_STATE.OFF : constants.WRITE_STATE.ON);
+      return (newState ? WRITE_STATE.OFF : WRITE_STATE.ON);
     }
 
     turnOn(callback){
 
       console.info("Turning on");
-      if(os.platform() != 'linux'){
+      if(platform() != 'linux'){
         return;
       }
-      this.pin.write(constants.STATUS.ACTIVE, callback);
+      this.pin.write(STATUS.ACTIVE, callback);
     }
 
     turnOff(callback){
 
       console.info("Turning off");
-      if(os.platform() != 'linux'){
+      if(platform() != 'linux'){
         return;
       }
-      this.pin.write(constants.STATUS.INACTIVE, callback);
+      this.pin.write(STATUS.INACTIVE, callback);
     }
 
     exit() {

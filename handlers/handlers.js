@@ -1,17 +1,17 @@
 'use strict';
 
-const constants = require('../config/constants.js');
-var Exec = require('child_process').exec;
-var GpioToggler = require('../controllers/gpiotoggler.js')
-var Mathjs = require('mathjs');
-var Omxplayer = require('node-omxplayer');
-var Path = require('path');
+import { AUDIO_MAX_RANDOM, AUDIO_BASE_PATH, VERSION } from '../config/constants.js';
+import { exec as Exec } from 'child_process';
+import GpioToggler from '../controllers/gpiotoggler.js';
+import { randomInt } from 'mathjs';
+import Omxplayer from 'node-omxplayer';
+import { join } from 'path';
 var gpiToggler = new GpioToggler();
 var player = new Omxplayer();
 
 var randomSound = function () {
-  var name = 'sound-' + Mathjs.randomInt(constants.AUDIO_MAX_RANDOM) + '.mp3';
-  return Path.join(constants.AUDIO_BASE_PATH, name);
+  var name = 'sound-' + randomInt(AUDIO_MAX_RANDOM) + '.mp3';
+  return join(AUDIO_BASE_PATH, name);
 };
 
 var stopPlayer = function (player) {
@@ -20,59 +20,71 @@ var stopPlayer = function (player) {
   Exec('killall -9 omxplayer.bin', function () {});
 }
 
-module.exports = Object.freeze({
-
-    root : function (request, reply) {
-
-        reply({
-            status : "ok",
-            timestamp : new Date().getTime(),
-            version : constants.VERSION
-        }).code(200);
+export default {
+  
+  root : async function (request, h) {
+    
+    const response = h.response(
+      {
+        status : "ok",
+        timestamp : new Date().getTime(),
+        version : VERSION
+      }).code(200);
+      response.type('application/json');
+      
+      return response;
     },
-
-    activate : function (request, reply) {
+    
+    activate : async function (request, h) {
+      
+      var state = encodeURIComponent(request.params.state) === 'on'
+      if(state){
         
-        var state = encodeURIComponent(request.params.state) === 'on'
-        if(state){
-
-            gpiToggler.turnOn(function(err){
-              try {
-                player.newSource(randomSound(), 'local', true);
-              } catch (err) {
-                console.log("couldn't play audio file");
-                console.log(err);
-              } finally {
-                console.log("turned on");
-              }
-            });
-
-        } else{
-
-            gpiToggler.turnOff(function(err){
-              try {
-                stopPlayer(player);
-              } catch (err) {
-                console.log("couldn't stop audio file");
-                console.log(err);
-              } finally {
-                console.log("turned off");
-              }
-            });
-
-        }
-
-        reply({
-            status : state,
-            timestamp : new Date().getTime(),
-        }).code(200);
-    },
-    toggle : function (request, reply) {
+        gpiToggler.turnOn(function(err){
+          try {
+            player.newSource(randomSound(), 'local', true);
+          } catch (err) {
+            console.log("couldn't play audio file");
+            console.log(err);
+          } finally {
+            console.log("turned on");
+          }
+        });
         
-        var toggledState = gpiToggler.toggle();
-        reply({
-            status : toggledState,
-            timestamp : new Date().getTime(),
-        }).code(200);
+      } else{
+        
+        gpiToggler.turnOff(function(err){
+          try {
+            stopPlayer(player);
+          } catch (err) {
+            console.log("couldn't stop audio file");
+            console.log(err);
+          } finally {
+            console.log("turned off");
+          }
+        });
+        
+      }
+      
+      const response = h.response({
+        status : state,
+        timestamp : new Date().getTime(),
+      }).code(200);
+      response.type('application/json');
+      
+      return response;
     },
-});
+    toggle : async function (request, h) {
+      
+      var toggledState = gpiToggler.toggle();
+      
+      const response = h.response(
+        {
+          status : toggledState,
+          timestamp : new Date().getTime(),
+        }).code(200);
+        response.type('application/json');
+        
+        return response;
+      },
+    }

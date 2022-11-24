@@ -1,5 +1,4 @@
-strobelight-ci-alarm
-====================
+# strobelight-ci-alarm
 
 **strobelight-ci-alarm** is a Electronic Relay toggler to be used on our Continuous Integration system (while builds are running).
 
@@ -29,7 +28,7 @@ Changes the relay state switching either to `ON` or `OFF`
 
 This `hapi.js` project has the following structure:
 
-```
+```shell
 |-config                # any config required - you can change your PIN ports here
 |-controllers           # controllers for the application
 |-handlers              # handlers for routes
@@ -45,3 +44,15 @@ This `hapi.js` project has the following structure:
 ## Logging
 
 Logging is performed via [good-console](https://github.com/hapijs/good-console) and redirected to `/tmp/strobelight.log` file.
+
+## Run
+
+Run using:
+
+```shell
+npm start
+```
+
+## Systemd and nginx
+
+INside `system_configs` folder you have a systemd config file and an nginx sites-available config file if you want to enable the service on port `80`.
