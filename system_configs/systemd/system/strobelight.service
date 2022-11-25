@@ -1,5 +1,5 @@
 [Service]
-ExecStart=/usr/local/bin/node /home/pi/strobelight-ci-alarm/server.js
+ExecStart=/usr/local/bin/npm start
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
